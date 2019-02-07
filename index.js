@@ -15,14 +15,12 @@ const Action = {
         ADD: 'ADD',
         SUBTRACT: 'SUBTRACT'
 }
-
 const cbor = require('cbor')
 
 //payload
 var payload = 
 {
 }
-
 
 // process
 console.log("We are follow two steps"+ "\n"+"1. we are create private key with Username if private key is not exist"+"\n"+"2. After creation of private key user can doing transactions")
@@ -34,14 +32,15 @@ if(option == '0'){
 else if(option == '1'){ DoingTransaction();}
 
 
+
 // decoding PrivateKey
 var decodedPriv=Buffer.from(PrivateKey,'hex')
 var privateBuffer = {
         privateKeyBytes: decodedPriv
 }
 console.log("after decoding hexadecimal- ",privateBuffer)
-
 var signer = new CryptoFactory(context).newSigner(privateBuffer);
+
 
 
 // Encoding of Payload
@@ -64,7 +63,8 @@ const {protobuf} = require('sawtooth-sdk')
  * @param {string} familyVersion Family version
  * @param {string} batchSignerPublicKey Batch signer's hex encoded public key
  */
-const transactionHeaderBytes = protobuf.TransactionHeader.encode({
+
+ const transactionHeaderBytes = protobuf.TransactionHeader.encode({
     batcherPublicKey: signer.getPublicKey().asHex(),
     dependencies: [],
     familyName: 'python_tp',

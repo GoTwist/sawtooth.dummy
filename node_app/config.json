@@ -1,0 +1,17 @@
+{
+    "restapiURL":"http://rest-api:8008",
+    "keystore":"keys",
+    "port":"3212",
+    "hostname":"localhost",
+    "authorizationSecret":"C0d#R3@P3R$Tr!K#$",
+    "jwt_expiretime":"36000",
+    "familyName":"python_tp",
+    "familyVersion":"1.1",
+    "batcherPrivateKey":"c0dfb1d29f91b8a843981a053cec6af9a8ae5c488ba7748d2f21893c68c684df",
+    "successLoginRoute":"/explorer",
+    "PREFIX":"dc21fb",
+    "VALIDATOR_URL":"tcp://validator:4004",
+    "admin_signer_private_key":"d5aa76f4d16ec0e4bf6ea12705eaa8c44b0750ef0b3941fad3535988a65d3d77",
+    "admin_signer_public_key":"03bfa2bd6182778c8b98f6ae76344ff3bb90f118db5c3055568f9893923c343127"
+
+}

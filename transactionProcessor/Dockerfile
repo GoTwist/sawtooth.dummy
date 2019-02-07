@@ -2,8 +2,10 @@ FROM ubuntu:xenial
 
 RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sources.list \
  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
+ && apt-get -q -y update \
+ && apt-get -q install -y software-properties-common \
  && add-apt-repository 'deb [arch=amd64] http://repo.sawtooth.me/ubuntu/bumper/stable xenial universe' \
- && apt-get update
+ && apt-get update -q -y
 
 RUN apt-get install -y -q --allow-downgrades \
     git \

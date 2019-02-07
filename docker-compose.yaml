@@ -7,7 +7,7 @@ services:
 
   validator:
     image: hyperledger/sawtooth-validator:1.0
-    contianer_name: validator
+    container_name: validator
     expose:
       - 4004
     ports:
@@ -29,7 +29,7 @@ services:
 
   settings-tp:
     image: hyperledger/sawtooth-settings-tp:1.0
-    contianer_name: settings-tp
+    container_name: settings-tp
     depends_on:
       - validator
     entrypoint: settings-tp -vv -C tcp://validator:4004
@@ -38,7 +38,7 @@ services:
 
   rest-api:
     image: hyperledger/sawtooth-rest-api:1.0
-    contianer_name: rest-api
+    container_name: rest-api
     expose:
       - 8008
     ports:
@@ -56,7 +56,7 @@ services:
     build:
       context: ./ 
       dockerfile: ./transactionProcessor/Dockerfile
-    contianer_name: python-tp
+    container_name: python-tp
     depends_on:
       - validator
     command: python3 main.py -C tcp://validator:4004
@@ -67,7 +67,7 @@ services:
 
   application:
     image: node:8.15.0-jessie
-    contianer_name: application
+    container_name: application
     volumes:
       - ./node_app:/twist/node_app
     working_dir:  /twist/node_app

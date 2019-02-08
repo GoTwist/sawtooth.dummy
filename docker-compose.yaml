@@ -1,18 +1,17 @@
 version: '2.0'
 
 networks:
-  myblockchain:
+  twist_net:
 
 services:
 
   validator:
     image: hyperledger/sawtooth-validator:1.0
-    container_name: TwistProjects-my-validator
+    container_name: validator
     expose:
       - 4004
     ports:
-      - '4020:4004'
-    # start the validator with an empty genesis batch
+      - '4004:4004'
     entrypoint: |
       bash -c "
         if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
@@ -26,24 +25,24 @@ services:
           --bind component:tcp://eth0:4004 \
           --bind network:tcp://eth0:8800"
     networks:
-      - myblockchain
+      - twist_net
 
   settings-tp:
     image: hyperledger/sawtooth-settings-tp:1.0
-    container_name: TwistProjects-my-settings-tp
+    container_name: settings-tp
     depends_on:
       - validator
     entrypoint: settings-tp -vv -C tcp://validator:4004
     networks:
-      - myblockchain
+      - twist_net
 
   rest-api:
     image: hyperledger/sawtooth-rest-api:1.0
-    container_name: TwistProjects-my-rest-api
+    container_name: rest-api
     expose:
       - 8008
     ports:
-      - '8024:8008'
+      - '8008:8008'
     depends_on:
       - validator
     entrypoint: |
@@ -51,18 +50,34 @@ services:
         --connect tcp://validator:4004
         --bind rest-api:8008
     networks:
-      - myblockchain
+      - twist_net
 
   python_tp:
     build:
       context: ./ 
       dockerfile: ./transactionProcessor/Dockerfile
-    image: python_tp
-    container_name: TwistProjects-my-python_tp-local
+    container_name: python-tp
     depends_on:
       - validator
     command: python3 main.py -C tcp://validator:4004
     volumes:
       - ./transactionProcessor:/project
     networks:
-      - myblockchain
+      - twist_net
+
+  application:
+    image: node:8.15.0-jessie
+    container_name: application
+    volumes:
+      - ./node_app:/twist/node_app
+    working_dir:  /twist/node_app
+    command: |
+      bash -c "
+        set -x &&
+        npm install
+        tail -f /dev/null
+      "
+    depends_on:
+      - python_tp
+    networks:
+      - twist_net

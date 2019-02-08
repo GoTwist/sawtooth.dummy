@@ -4,7 +4,7 @@ var protoObj = require("protobufjs");
 const keyOps = require("./keyOps");
 const context = createContext('secp256k1')
 var readlineSync = require('readline-sync');
-const restapiURL = 'http://localhost:8008'
+const restapiURL = 'http://rest-api:8008'
 
 const request = require('request')
 var signer;

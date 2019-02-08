@@ -75,6 +75,7 @@ services:
       bash -c "
         set -x &&
         npm install
+        npm install
         tail -f /dev/null
       "
     depends_on:
